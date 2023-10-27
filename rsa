@@ -4,10 +4,11 @@ import sys
 File_name: factors
 Author: Kevine UMUTONI (simplykevine)
 Project: RSA-Factoring-Challenge
-Status: submitted on 27-OCT-23
-"""
+Status: submitted on 27-OCT-23"""
+
 def factorization():
     try:
+        revfile = sys.argv[1]
 
     # RSA Laboratories states that: for each RSA number n
     # there exist prime numbers p and q such that
@@ -18,25 +19,22 @@ def factorization():
     # p and q are always prime numbers
     # There is only one number in the files
     # How far can you go in less than 5 seconds?
+    
 
-        revfile = sys.argv[1]
         with open(revfile) as f:
             for revnumber in f:
                 revnumber = int(revnumber)
+                print(f"Processing number: {revnumber}")
                 if revnumber % 2 == 0:
-                        print("{}={}*{}".format(revnumber, revnumber // 2, 2))
-                        continue
+                    print(f"{revnumber} = {revnumber // 2} * 2")
+                    continue
                 i = 3
                 while i < revnumber // 2:
                     if revnumber % i == 0:
-                        print("{}={}*{}".format(revnumber, revnumber // i, i))
+                        print(f"{revnumber} = {revnumber // i} * {i}")
                         break
                     i = i + 2
                 if i == (revnumber // 2) + 1:
-                    print("{}={}*{}".format(revnumber, revnumber, 1))
-    except (IndexError):
-        pass
-
-
-# autostart
-factorization()
+                    print(f"{revnumber} = {revnumber} * 1")
+    except (IndexError, FileNotFoundError):
+        print("An error occurred.")
