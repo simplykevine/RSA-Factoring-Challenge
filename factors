@@ -1,52 +1,58 @@
-#!/usr/bin/python3
-"""Module that factorise all numbers it should into a product of two smaller numbers.
-File_name: factors
-Author: Kevine UMUTONI (simplykevine)
-Project: RSA-Factoring-Challenge
-Status: submitted on 27-OCT-23
-"""
+#!/usr/bin/env bash
 
-import sys
-import time
-import math
+	# RSA Laboratories states that: for each RSA number n
+	# there exist prime numbers p and q such that
+	# n = p × q. The problem is to find these two primes, given only n.
+	# VARIABLE(" "):
+	# factorize(int) Factorize all the things!
+	# This task is the same as task 0, except:
+	# p and q are always prime numbers
+	# There is only one number in the files
+	# How far can you go in less than 5 second?
 
-def factorize_number(num):
-    factors = []
-    divisor = 2
+check_factor()
+{
+	if [ $# -ne 3 ];
+        then
+                args=("$@")
+                count=0
+                num2=1
+                for a in ${args[*]};
+                do
+                        if [ $count -gt 1 ];
+                        then
+                                num2=$(echo $a*$num2 | bc)
+                        fi
+                        count=$((count + 1))
+                done
+        else
+                num2=$3
+        fi
 
-    while num > 1:
-        if num % divisor == 0:
-            factors.append(str(divisor))
-            num //= divisor
+        num1=$2
+        num=$(echo "$1" | tr ':' '=')
 
-        else:
-            divisor += 1
+        result=$(echo "if($num2 > $num1) 1 else 0" | bc)
+	        if ((result == 1)); then
+		        numcp=$num1
+		        num1=$num2
+		        num2=$numcp
+                fi
 
-    return '*'.join(factors)
-""""print out a simple decomposition of an integer """
+        echo "$num$num1*$num2"
+}
 
+if [ $# -ne 1 ]
+then
+        echo 'Usage: factors <file>'
+        exit 1
+else
 
-def main():
-    if len(sys.argv) != 2:
-        print("Usage: python3 factors.py <filename>")
-        return
+        while read i
+        do
 
-    filename = sys.argv[1]
+                result=$(factor "$i")
+                check_factor $result
 
-    try:
-        with open(filename, 'r') as file:
-            for line in file:
-                number = int(line.strip())
-                factorization = factorize_number(number)
-                print(f"{number}={factorization}")
-
-    except FileNotFoundError:
-        print(f"File '{filename}' not found.")
-    except ValueError:
-        print("Invalid format. file must contains only natural numbers.")
-    except Exception as e:
-        print("An error occurred:", str(e))
-
-
-if __name__ == "__main__":
-    main()
+        done < "$1"
+fi
