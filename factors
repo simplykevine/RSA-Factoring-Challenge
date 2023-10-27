@@ -22,11 +22,11 @@ if len(argv) != 2:
 
 try:
     with open(argv[1]) as file:
-        line = file.readliline()
+        line = file.readline()
 
         while line != "":
             value = int(line.split('\n')[0])
             factorise(value)
-            line = file.readliline()
+            line = file.readline()
 except:
     pass
