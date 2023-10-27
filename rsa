@@ -19,7 +19,8 @@ def factorization():
     # There is only one number in the files
     # How far can you go in less than 5 seconds?
     
-    revfile = sys.argv[1]
+
+        revfile = sys.argv[1]
         with open(revfile) as f:
             for revnumber in f:
                 revnumber = int(revnumber)
@@ -34,8 +35,9 @@ def factorization():
                     i = i + 2
                 if i == (revnumber // 2) + 1:
                     print("{}={}*{}".format(revnumber, revnumber, 1))
-    except (IndexError, FileNotFoundError):
+    except (IndexError):
         pass
-if __name__ == "__main__":
 
-    factorization()
+
+# autostart
+factorisation()
