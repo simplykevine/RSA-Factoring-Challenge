@@ -1,10 +1,5 @@
 #!/usr/bin/python3
-"""Module that factorise all numbers it should into a product of two smaller numbers.
-File_name: factors
-Author: Kevine UMUTONI (simplykevine)
-Project: RSA-Factoring-Challenge
-Status: submitted on 27-OCT-23
-"""
+"""Module that factorise all numbers it should into a product of two smaller numbers."""
 
 import sys
 import time
