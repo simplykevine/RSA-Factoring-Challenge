@@ -1,16 +1,5 @@
-#!/usr/bin/python3
-import sys
-
-"""
-File_name: factors
-Author: Kevine UMUTONI (simplykevine)
-Project: RSA-Factoring-Challenge
-Status: submitted on 27-OCT-23"""
-
-def factorisation():
-    try:
-
-    # RSA Laboratories states that: for each RSA number n
+#!/usr/bin/env bash
+# RSA Laboratories states that: for each RSA number n
     # there exist prime numbers p and q such that
     # n = p × q. The problem is to find these two primes, given only n.
     # VARIABLE(" "):
@@ -20,25 +9,49 @@ def factorisation():
     # There is only one number in the files
     # How far can you go in less than 5 seconds?
 
- 
-        revfile = sys.argv[1]
-        with open(revfile) as f:
-            for revnumber in f:
-                revnumber = int(revnumber)
-                if revnumber % 2 == 0:
-                        print("{}={}*{}".format(revnumber, revnumber // 2, 2))
-                        continue
-                i = 3
-                while i < revnumber // 2:
-                    if revnumber % i == 0:
-                        print("{}={}*{}".format(revnumber, revnumber // i, i))
-                        break
-                    i = i + 2
-                if i == (revnumber // 2) + 1:
-                    print("{}={}*{}".format(revnumber, revnumber, 1))
-    except (IndexError):
-        pass
+check_factor()
+{
+	if [ $# -ne 3 ];
+        then
+                args=("$@")
+                count=0
+                num2=1
+                for a in ${args[*]};
+                do
+                        if [ $count -gt 1 ];
+                        then
+                                num2=$(echo $a*$num2 | bc)
+                        fi
+                        count=$((count + 1))
+                done
+        else
+                num2=$3
+        fi
 
+        num1=$2
+        num=$(echo "$1" | tr ':' '=')
 
-# autostart
-factorisation()
+        result=$(echo "if($num2 > $num1) 1 else 0" | bc)
+	        if ((result == 1)); then
+		        numcp=$num1
+		        num1=$num2
+		        num2=$numcp
+                fi
+
+        echo "$num$num1*$num2"
+}
+
+if [ $# -ne 1 ]
+then
+        echo 'Usage: rsa <file>'
+        exit 1
+else
+
+        while read i
+        do
+
+                result=$(factor "$i")
+                check_factor $result
+
+        done < "$1"
+fi
