@@ -8,7 +8,6 @@ Status: submitted on 27-OCT-23"""
 
 def factorization():
     try:
-        revfile = sys.argv[1]
 
     # RSA Laboratories states that: for each RSA number n
     # there exist prime numbers p and q such that
@@ -20,21 +19,23 @@ def factorization():
     # There is only one number in the files
     # How far can you go in less than 5 seconds?
     
-
+    revfile = sys.argv[1]
         with open(revfile) as f:
             for revnumber in f:
                 revnumber = int(revnumber)
-                print(f"Processing number: {revnumber}")
                 if revnumber % 2 == 0:
-                    print(f"{revnumber} = {revnumber // 2} * 2")
-                    continue
+                        print("{}={}*{}".format(revnumber, revnumber // 2, 2))
+                        continue
                 i = 3
                 while i < revnumber // 2:
                     if revnumber % i == 0:
-                        print(f"{revnumber} = {revnumber // i} * {i}")
+                        print("{}={}*{}".format(revnumber, revnumber // i, i))
                         break
                     i = i + 2
                 if i == (revnumber // 2) + 1:
-                    print(f"{revnumber} = {revnumber} * 1")
+                    print("{}={}*{}".format(revnumber, revnumber, 1))
     except (IndexError, FileNotFoundError):
-        print("An error occurred.")
+        pass
+if __name__ == "__main__":
+
+    factorization()
